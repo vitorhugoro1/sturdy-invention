@@ -1,11 +1,13 @@
 import Client from 'App/Models/Client'
 import Factory from '@ioc:Adonis/Lucid/Factory'
 import Product from 'App/Models/Product'
+import Hash from '@ioc:Adonis/Core/Hash'
 
-export const ClientFactory = Factory.define(Client, ({ faker }) => {
+export const ClientFactory = Factory.define(Client, async ({ faker }) => {
   return {
     name: `${faker.name.firstName()} ${faker.name.lastName()}`,
     email: faker.internet.email().toLowerCase(),
+    password: await Hash.make('password'),
   }
 }).build()
 

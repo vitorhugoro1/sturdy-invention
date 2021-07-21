@@ -3,6 +3,7 @@ import Database from '@ioc:Adonis/Lucid/Database'
 import Client from 'App/Models/Client'
 import StoreClientValidator from 'App/Validators/StoreClientValidator'
 import UpdateClientValidator from 'App/Validators/UpdateClientValidator'
+import { schema, rules } from '@ioc:Adonis/Core/Validator'
 
 export default class ClientsController {
   public async index({ response }: HttpContextContract) {
@@ -19,6 +20,11 @@ export default class ClientsController {
 
       client.merge(storeClient)
 
+      // Senha padrão para usuário criado por outros usuários
+      client.merge({
+        password: 'password',
+      })
+
       client.useTransaction(trx)
 
       await client.save()
@@ -32,7 +38,10 @@ export default class ClientsController {
   }
 
   public async show({ request, response }: HttpContextContract) {
-    const client = await Client.findOrFail(request.param('id'))
+    const client = await Client.query()
+      .preload('wishlist')
+      .where('id', request.param('id'))
+      .firstOrFail()
 
     return response.json(client)
   }
@@ -55,5 +64,23 @@ export default class ClientsController {
     return response.json(client)
   }
 
-  public async destroy({}: HttpContextContract) {}
+  public async destroy({ auth, request, response }: HttpContextContract) {
+    await request.validate({
+      schema: schema.create({
+        client: schema.string({}, [
+          rules.required(),
+          rules.notIn([auth.use('api').user?.id || '']),
+        ]),
+      }),
+      data: {
+        client: request.param('id'),
+      },
+    })
+
+    const client = await Client.findOrFail(request.param('id'))
+
+    return response.json({
+      message: `Client ${client.id} successfull deleted.`,
+    })
+  }
 }

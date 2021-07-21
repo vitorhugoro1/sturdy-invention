@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Client from 'App/Models/Client'
+import CreateClientAccountValidator from 'App/Validators/CreateClientAccountValidator'
 
 export default class AuthController {
   public async login({ auth, request, response }: HttpContextContract) {
@@ -24,18 +25,24 @@ export default class AuthController {
   }
 
   public async signIn({ request, response }: HttpContextContract) {
+    const createClientAccount = await request.validate(CreateClientAccountValidator)
+
     const client = await Database.transaction(async (trx) => {
       const client = new Client()
 
-      client.merge(request.body())
+      client.merge(createClientAccount)
 
       client.useTransaction(trx)
 
       await client.related('wishlist').create({})
 
       await client.save()
+
+      return client
     })
 
-    return response.json(client)
+    return response.json({
+      message: `Created client ${client.name} with e-mail ${client.email}`,
+    })
   }
 }
