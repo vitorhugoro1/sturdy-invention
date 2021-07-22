@@ -19,6 +19,10 @@ Projeto que possui a intenção de ser uma forma de estudo sobre NodeJs e TypeSc
 - O dispositivo que irá renderizar a resposta fornecida por essa nova API irá apresentar o Título, Imagem, Preço e irá utilizar o ID do produto para formatar o link que ele irá acessar. Quando existir um review para o produto, o mesmo será exibido por este dispositivo.
 - O acesso à api deve ser aberto ao mundo, porém deve possuir autenticação e autorização.
 
+## Documentação
+
+A documentação com todas as rotas disponíveis e seus respectivos payloads pode ser encontrado no seguinte link: <https://documenter.getpostman.com/view/1314133/TzsYM97h>
+
 ## Requisitos
 
 - NodeJS 14
