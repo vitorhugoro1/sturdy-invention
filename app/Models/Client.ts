@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
 import { BaseModel, beforeCreate, beforeSave, column, hasOne, HasOne } from '@ioc:Adonis/Lucid/Orm'
-import { uuid } from 'uuidv4'
+import { v4 } from 'uuid'
 import Wishlist from './Wishlist'
 
 export default class Client extends BaseModel {
@@ -33,7 +33,7 @@ export default class Client extends BaseModel {
 
   @beforeCreate()
   public static assignUuid(client: Client) {
-    client.id = uuid()
+    client.id = v4()
   }
 
   @beforeSave()

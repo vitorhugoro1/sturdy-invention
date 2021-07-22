@@ -8,7 +8,7 @@ import {
   ManyToMany,
   manyToMany,
 } from '@ioc:Adonis/Lucid/Orm'
-import { uuid } from 'uuidv4'
+import { v4 } from 'uuid'
 import Client from './Client'
 import Product from './Product'
 
@@ -41,6 +41,6 @@ export default class Wishlist extends BaseModel {
 
   @beforeCreate()
   public static assignUuid(wishlist: Wishlist) {
-    wishlist.id = uuid()
+    wishlist.id = v4()
   }
 }
