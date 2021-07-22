@@ -10,7 +10,7 @@ export default class Products extends BaseSchema {
       table.string('brand').notNullable()
       table.string('image').notNullable()
       table.decimal('price', 12).notNullable()
-      table.integer('reviewScore').nullable()
+      table.integer('review_score').nullable()
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })

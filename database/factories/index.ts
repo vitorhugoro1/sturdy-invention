@@ -17,5 +17,6 @@ export const ProductFactory = Factory.define(Product, ({ faker }) => {
     brand: faker.company.companyName(),
     image: faker.image.imageUrl(),
     price: parseFloat(faker.commerce.price()),
+    reviewScore: faker.datatype.number(5),
   }
 }).build()
