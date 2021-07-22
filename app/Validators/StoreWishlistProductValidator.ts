@@ -6,7 +6,6 @@ export default class StoreWishlistProductValidator {
 
   public schema = schema.create({
     product_id: schema.string({ trim: true }, [
-      rules.required(),
       rules.uuid(),
       rules.exists({ table: 'products', column: 'id' }),
     ]),

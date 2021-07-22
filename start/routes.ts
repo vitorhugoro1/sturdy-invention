@@ -10,6 +10,12 @@ Route.group(() => {
     Route.resource('products', 'ProductsController').only(['index', 'show'])
 
     Route.post('/logout', 'AuthController.logout')
+
+    Route.group(() => {
+      Route.get('/', 'MeController.me')
+      Route.get('wishlist', 'MeController.wishlist')
+      Route.post('wishlist/products', 'MeController.addProductOnWishlist')
+    }).prefix('me')
   }).middleware(['auth'])
 
   Route.post('login', 'AuthController.login')
